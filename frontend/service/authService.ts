@@ -15,3 +15,12 @@ export const deleteAllowedEmail = async (id: number) => {
 export const addAllowedEmail = async (email: string) => {
   db.prepare("INSERT INTO allowed_emails (email) VALUES (?)").run(email);
 };
+
+export const getAllowedEmail = async (
+  email: string,
+): Promise<AllowedEmailsRecord | undefined> => {
+  const record = db
+    .prepare("SELECT * FROM allowed_emails WHERE email = ?")
+    .get(email) as AllowedEmailsRecord | undefined;
+  return record;
+};
