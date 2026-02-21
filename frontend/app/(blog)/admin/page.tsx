@@ -5,19 +5,14 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getAllowedEmails } from "@/service/authService";
 import AllowedEmailsTable from "@/app/components/AllowedEmailsTable";
-import { deleteAllowedEmail } from "@/service/authService";
+import AllowedEmailForm from "@/app/components/AllowedEmailForm";
+import { handleDeleteEmail } from "@/lib/actions";
 
-interface Props {
-  params: Promise<{ slug: string }>;
-}
-
-export default async function Page({ params }: Props) {
+export default async function Page() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  const emails = await getAllowedEmails();
-  console.log(emails);
   if (!session) {
     redirect("/login");
   }
@@ -25,12 +20,14 @@ export default async function Page({ params }: Props) {
     redirect("/");
   }
 
+  const emails = await getAllowedEmails();
+
   return (
     <PageWrapper pageName="Admin panel - správa povolených emailů">
-      
+      <AllowedEmailForm />
       <AllowedEmailsTable
         allowedEmailRecords={emails}
-        deleteFun={deleteAllowedEmail}
+        deleteFun={handleDeleteEmail}
       />
     </PageWrapper>
   );
