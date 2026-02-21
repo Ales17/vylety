@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_trip_infos",
+  "info": {
+    "displayName": "Trip info",
+    "icon": "walk"
+  },
+  "options": {},
+  "attributes": {
+    "TripDistance": {
+      "type": "decimal",
+      "min": 0
+    },
+    "TripDate": {
+      "type": "date"
+    },
+    "MapyComUrl": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}
