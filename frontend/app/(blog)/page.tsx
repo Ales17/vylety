@@ -3,7 +3,7 @@ import { findArticles } from "@/service/strapiService";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import ArticleGrid from "../components/ArticleGrid";
+import ArticleGrid from "../../components/ArticleGrid";
 interface Props {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }

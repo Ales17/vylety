@@ -1,11 +1,11 @@
 "use server";
-import PageWrapper from "@/app/components/PageWrapper";
+import PageWrapper from "@/components/PageWrapper";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getAllowedEmails } from "@/service/authService";
-import AllowedEmailsTable from "@/app/components/AllowedEmailsTable";
-import AllowedEmailForm from "@/app/components/AllowedEmailForm";
+import AllowedEmailsTable from "@/components/AllowedEmailsTable";
+import AllowedEmailForm from "@/components/AllowedEmailForm";
 import { handleDeleteEmail } from "@/lib/actions";
 
 export default async function Page() {

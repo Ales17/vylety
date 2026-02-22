@@ -1,5 +1,5 @@
-import ArticleSingle from "@/app/components/ArticleSingle";
-import PageWrapper from "@/app/components/PageWrapper";
+import ArticleSingle from "@/components/ArticleSingle";
+import PageWrapper from "@/components/PageWrapper";
 import { getIdFromSlug } from "@/lib/strings";
 import { findArticleById } from "@/service/strapiService";
 import { headers } from "next/headers";

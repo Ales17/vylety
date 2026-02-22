@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { FormLoginState } from "@/types/FormLoginState";
 import { XIcon } from "lucide-react";
-import Input from "@/app/components/Input";
-import Button from "@/app/components/Button";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 import { authClient } from "@/lib/authClient";
 
 interface MessageBoxProps {
