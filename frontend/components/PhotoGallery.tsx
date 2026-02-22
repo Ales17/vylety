@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { v4 as uuidv4 } from "uuid";
 import { GalleryItem } from "@/types/GalleryItem";
 interface GalleryProps {
   images: GalleryItem[];
@@ -12,7 +12,7 @@ export default function PhotoGallery({ images }: GalleryProps) {
 
         return (
           <div
-            key={item.id}
+            key={uuidv4()}
             className="relative aspect-video overflow-hidden rounded-lg"
           >
             <img
