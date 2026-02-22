@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { FormLoginState } from "@/types/FormLoginState";
+import { XIcon } from "lucide-react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import { authClient } from "@/lib/authClient";
@@ -19,7 +20,7 @@ function MessageBox({ text, closeFun }: MessageBoxProps) {
         className="text-3xl select-none cursor-default flex justify-self-end-safe px-2 items-center"
         onClick={closeFun}
       >
-        &times;
+        <XIcon />
       </button>
     </div>
   );
