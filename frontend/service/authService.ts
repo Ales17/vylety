@@ -24,3 +24,15 @@ export const getAllowedEmail = async (
     .get(email) as AllowedEmailsRecord | undefined;
   return record;
 };
+
+export const isEmailAllowed = async (email: string): Promise<boolean> => {
+  if (!email) {
+    return false;
+  }
+  const normalized = email.toLowerCase();
+  const record = await getAllowedEmail(normalized);
+  if (!record) {
+    return false;
+  }
+  return true;
+};
