@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { magicLink, admin } from "better-auth/plugins";
-import Database from "better-sqlite3";
+import { APIError } from "better-auth/api";
+import { isEmailAllowed } from "@/service/authService";
 import { db } from "./db";
 import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
@@ -15,12 +16,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// TODO check if user can enter
-const isEmailAllowed = (email: string) => {
-  const normalized = email.toLowerCase();
-  return true;
-};
-
 const websiteName = process.env.WEBSITE_NAME;
 
 const sendMail = async (url: string, emailTo: string) => {
@@ -32,15 +27,17 @@ const sendMail = async (url: string, emailTo: string) => {
     subject: `Přihlášení na ${websiteName} [ID ${uniqueId.split("-")[0]}]`,
     text: `Ahoj,\npro přihlášení na stránky ${websiteName} klikni na odkaz níže:
       \n${url}
-      \nPokud odkaz nelze rozkliknout, zkopíruj ho do prohlížeče.`,
+      \nPokud odkaz nelze rozkliknout, zkopíruj ho a vlož do adresního řádku prohlížeče.`,
+    html: `<p>Ahoj,</p><p>pro přihlášení na stránky <strong>${websiteName}</strong> klikni na odkaz níže:</p><p><a href="${url}">${url}</a></p><p>Pokud odkaz nelze rozkliknout, zkopíruj ho a vlož do adresního řádku prohlížeče.</p>`,
     headers: { "X-Entity-Ref-ID": uniqueId },
   };
-
-  (async () => {
+  try {
     const info = await transporter.sendMail(emailMessage);
-
     console.log("Message sent:", info.messageId);
-  })();
+  } catch (err) {
+    return false;
+  }
+  return true;
 };
 
 export const auth = betterAuth({
@@ -49,10 +46,24 @@ export const auth = betterAuth({
   plugins: [
     admin(),
     magicLink({
+      disableSignUp: true,
       sendMagicLink: async ({ email, token, url }, ctx) => {
-        console.log(email, token, url);
-
-        await sendMail(url, email);
+        //console.log(email, token, url);
+        const isAllowed = await isEmailAllowed(email);
+        if (!isAllowed) {
+          throw new APIError("UNAUTHORIZED", {
+            code: "401",
+            message: "Nemáš přístup.",
+          });
+        }
+        const emailSended = await sendMail(url, email);
+        if (!emailSended) {
+          throw new APIError("INTERNAL_SERVER_ERROR", {
+            code: "500",
+            message: "Interní chyba. Přijď, prosím, později.",
+          });
+        }
+        // console.log(emailSended);
       },
     }),
   ],

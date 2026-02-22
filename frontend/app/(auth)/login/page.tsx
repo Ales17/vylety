@@ -9,11 +9,20 @@ import { authClient } from "@/lib/authClient";
 interface MessageBoxProps {
   text: string;
   closeFun: any;
+  type?: "success" | "error";
 }
 
-function MessageBox({ text, closeFun }: MessageBoxProps) {
+function MessageBox({ text, closeFun, type }: MessageBoxProps) {
+  const variants: Record<string, string> = {
+    success: "bg-green-100 text-green-800 border-green-400",
+    error: "bg-red-100 text-red-800 border-red-400",
+  };
+  const activeVariantClass = variants[type ? type : "success"];
+
   return (
-    <div className="flex justify-between border rounded bg-red-300 my-2">
+    <div
+      className={`flex justify-between border rounded mb-2 ${activeVariantClass}`}
+    >
       <div className="p-2">{text}</div>
 
       <button
@@ -31,26 +40,37 @@ export default function LoginPage() {
   const [msg, setMsg] = useState("");
   const [isMesssageVisible, setIsMessageVisible] = useState(false);
 
+  const resetMessageBox = () => {
+    setMsg("");
+    setIsMessageVisible(false);
+  };
+
   return (
-    <div className="border-gray-400 rounded w-screen md:w-1/3 bg-white p-2.5">
-      <h1>LOGIN</h1>
+    <div className="bg-white flex flex-col w-full">
+      <h1 className="mb-2">LOGIN</h1>
+      {isMesssageVisible && (
+        <MessageBox text={msg} closeFun={() => resetMessageBox()} />
+      )}
       <div>
-        <input
-          className="border border-2 border-slate-300"
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <Input type="email" onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div>
-        <button
+        <Button
+          label="Přihlásit se"
           onClick={async () => {
+            resetMessageBox();
             const { error, data } = await authClient.signIn.magicLink({
               email: email,
             });
+            if (error) {
+              setMsg(error.message ? error.message : "Chyba");
+              setIsMessageVisible(true);
+            } else {
+              setMsg("Odeslán přihlašovací email.");
+              setIsMessageVisible(true);
+            }
           }}
-        >
-          Přihlásit se
-        </button>
+        />
       </div>
     </div>
   );
