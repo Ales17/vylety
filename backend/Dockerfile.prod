@@ -1,0 +1,28 @@
+ARG NODE_VERSION=24-slim
+
+FROM node:${NODE_VERSION} AS build
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential curl gcc autoconf automake zlib1g-dev libpng-dev libvips-dev git > /dev/null 2>&1
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install -g node-gyp
+RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install --only=production
+ENV PATH=/app/node_modules/.bin:$PATH
+COPY . .
+RUN npm run build
+
+FROM node:${NODE_VERSION}
+RUN apt-get update && apt-get install -y --no-install-recommends libvips curl && rm -rf /var/lib/apt/lists/*
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+WORKDIR /app
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app ./
+ENV PATH=/app/node_modules/.bin:$PATH
+
+RUN chown -R node:node /app
+USER node
+EXPOSE 1337
+CMD ["npm", "run", "start"]
