@@ -1,5 +1,5 @@
 services:
-  backend:
+  vylety-backend:
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./data/backend/uploads:/app/public/uploads
       - ./data/backend/db:/app/.tmp
-  frontend:
+  vylety-frontend:
     depends_on:
       backend:
         condition: service_healthy
