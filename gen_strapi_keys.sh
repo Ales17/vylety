@@ -13,5 +13,3 @@ else
   echo "⏭️  Keys already exist in .env, skipping..."
 fi
 
-# Start backend
-docker compose up backend

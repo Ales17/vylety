@@ -21,7 +21,7 @@ services:
       - ./data/backend/db:/app/.tmp
   vylety-frontend:
     depends_on:
-      backend:
+      vylety-backend:
         condition: service_healthy
     build:
       context: ./frontend
@@ -34,3 +34,7 @@ services:
       - ./frontend/.env
     volumes:
       - ./data/frontend/db:/app/data
+networks:
+  default:
+    name: scoobydoo
+    external: true
