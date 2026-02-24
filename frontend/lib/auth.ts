@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const websiteName = process.env.WEBSITE_NAME;
+const websiteName = process.env.NEXT_PUBLIC_WEBSITE_NAME;
 
 const sendMail = async (url: string, emailTo: string) => {
   const uniqueId = uuidv4();
