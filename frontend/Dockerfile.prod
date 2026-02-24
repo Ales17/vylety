@@ -11,10 +11,11 @@ RUN --mount=type=cache,target=/root/.npm \
     npm ci --no-audit --no-fund
 
 FROM node:${NODE_VERSION} AS builder
-
 WORKDIR /app
+
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
@@ -22,8 +23,8 @@ RUN --mount=type=cache,target=/app/.next/cache \
     npm run build
 
 FROM node:${NODE_VERSION} AS runner
-
 WORKDIR /app
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
