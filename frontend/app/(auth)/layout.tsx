@@ -1,7 +1,16 @@
 import React from "react";
 import "../globals.css";
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: `Přihlášení | ${process.env.NEXT_PUBLIC_WEBSITE_NAME}`,
+}
+
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props;
+
+
+
 
   return (
     <html lang="cs">

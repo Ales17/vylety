@@ -4,10 +4,16 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import ArticleGrid from "../../components/ArticleGrid";
+
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: `Hlavní stránka | ${process.env.NEXT_PUBLIC_WEBSITE_NAME}`,
+}
+
 interface Props {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
-
 export default async function Home({ searchParams }: Props) {
   const session = await auth.api.getSession({
     headers: await headers(),

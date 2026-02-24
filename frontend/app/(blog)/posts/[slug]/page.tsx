@@ -10,6 +10,12 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: `Příspěvek | ${process.env.NEXT_PUBLIC_WEBSITE_NAME}`,
+}
+
 export default async function Page({ params }: Props) {
   const session = await auth.api.getSession({
     headers: await headers(),
