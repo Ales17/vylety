@@ -19,6 +19,21 @@ export default function ArticleSingle({ article }: Props) {
               label={formatDate(article.tripDate)}
             />
           )}
+          {article.tripLength && (
+            <TripInfoItem
+            title="Délka trasy"
+            icon={<FootprintsIcon />}
+            label={`${article.tripLength} km`}
+          />
+          )}
+            {article.mapsLink && (
+            <TripInfoItem
+                title="Odkaz na mapu"
+                icon={<MapIcon />}
+                label="Mapa"
+                href={article.mapsLink}
+            />
+            )}
         </ul>
       )}
       <div>{article.text}</div>
