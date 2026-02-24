@@ -1,7 +1,7 @@
 import { strapi } from "@strapi/client";
 
 const client = strapi({
-  baseURL: "http://localhost:1337/api",
+  baseURL: `${process.env.STRAPI_API_URL}/api`,
   auth: process.env.STRAPI_API_TOKEN,
 });
 
