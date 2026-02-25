@@ -15,13 +15,6 @@
     "title": {
       "type": "string"
     },
-    "description": {
-      "type": "text",
-      "maxLength": 80
-    },
-    "text": {
-      "type": "text"
-    },
     "slug": {
       "type": "uid",
       "targetField": "title"
@@ -48,6 +41,9 @@
       "target": "api::category.category",
       "inversedBy": "articles"
     },
+    "textRich": {
+      "type": "blocks"
+    },
     "tripLength": {
       "type": "decimal",
       "min": 0
@@ -57,6 +53,9 @@
     },
     "tripDate": {
       "type": "date"
+    },
+    "text": {
+      "type": "text"
     },
     "photoGallery": {
       "type": "media",
