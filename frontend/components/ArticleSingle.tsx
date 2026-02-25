@@ -1,5 +1,9 @@
 import { SingleArticleResponse } from "@/service/strapiService";
 import { MapIcon, Calendar1Icon, FootprintsIcon } from "lucide-react";
+import {
+  BlocksRenderer,
+  type BlocksContent,
+} from "@strapi/blocks-react-renderer";
 
 import TripInfoItem from "./TripInfoItem";
 import { formatDate } from "@/lib/strings";
@@ -21,22 +25,26 @@ export default function ArticleSingle({ article }: Props) {
           )}
           {article.tripLength && (
             <TripInfoItem
-            title="Délka trasy"
-            icon={<FootprintsIcon />}
-            label={`${article.tripLength} km`}
-          />
-          )}
-            {article.mapsLink && (
-            <TripInfoItem
-                title="Odkaz na mapu"
-                icon={<MapIcon />}
-                label="Mapa"
-                href={article.mapsLink}
+              title="Délka trasy"
+              icon={<FootprintsIcon />}
+              label={`${article.tripLength} km`}
             />
-            )}
+          )}
+          {article.mapsLink && (
+            <TripInfoItem
+              title="Odkaz na mapu"
+              icon={<MapIcon />}
+              label="Mapa"
+              href={article.mapsLink}
+            />
+          )}
         </ul>
       )}
-      <div>{article.text}</div>
+      {article.textRich && (
+        <div>
+          <BlocksRenderer content={article.textRich} />
+        </div>
+      )}
       {article.photoGallery && <PhotoGallery images={article.photoGallery} />}
     </div>
   );
