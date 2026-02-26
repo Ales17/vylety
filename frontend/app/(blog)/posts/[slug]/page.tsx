@@ -37,7 +37,7 @@ export default async function Page({ params }: Props) {
   return (
     <PageWrapper
       pageName={article.title}
-      date={article.createdAt}
+      dateCreated={article.createdAt}
       dateUpdated={article.updatedAt}
     >
       <ArticleSingle article={article} />
