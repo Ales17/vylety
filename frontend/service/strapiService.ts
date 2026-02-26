@@ -1,4 +1,5 @@
 import { strapi } from "@strapi/client";
+import { cache } from "react";
 
 const client = strapi({
   baseURL: `${process.env.STRAPI_API_URL}/api`,
@@ -25,7 +26,7 @@ export const findArticles = async ({
   return allArticles;
 };
 
-export const findArticleById = async (slug: string) => {
+export const findArticleById = cache(async (slug: string) => {
   const articles = client.collection("articles");
   const result = await articles.find({
     filters: {
@@ -36,7 +37,7 @@ export const findArticleById = async (slug: string) => {
     populate: "*",
   });
   return result.data[0] ?? null;
-};
+});
 
 export type ArticlesResponse = Awaited<ReturnType<typeof findArticles>>;
 export type SingleArticleResponse = Awaited<ReturnType<typeof findArticleById>>;
