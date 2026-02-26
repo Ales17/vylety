@@ -10,11 +10,17 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: `Příspěvek | ${process.env.NEXT_PUBLIC_WEBSITE_NAME}`,
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const article = await findArticleById(slug);
+  return {
+    title: `${article?.title || "Příspěvek"} | ${process.env.NEXT_PUBLIC_WEBSITE_NAME}`,
+  };
+}
 
 export default async function Page({ params }: Props) {
   const session = await auth.api.getSession({
@@ -26,14 +32,13 @@ export default async function Page({ params }: Props) {
   }
   const { slug } = await params;
 
-  //   const entityId = getIdFromSlug(slug);
-
-  //   if (entityId == null) {
-  //     return <>Neplatný odkaz</>;
-  //   }
-
   const article = await findArticleById(slug);
   console.log(article);
+
+  if (!article) {
+    return <PageWrapper pageName="Chyba">Článek nenalezen.</PageWrapper>;
+  }
+
   return (
     <PageWrapper
       pageName={article.title}
