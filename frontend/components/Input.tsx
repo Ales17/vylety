@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from "react";
+import { maxLength, minLength } from "zod";
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
@@ -10,6 +11,9 @@ export default function Input({
   label,
   autoComplete,
   id,
+  required,
+  maxLength,
+  minLength,
 }: Props) {
   return (
     <div>
@@ -22,6 +26,9 @@ export default function Input({
         name={name}
         id={id}
         autoComplete={autoComplete}
+        required={required}
+        minLength={minLength}
+        maxLength={maxLength}
       />
     </div>
   );
