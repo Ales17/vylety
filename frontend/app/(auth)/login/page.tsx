@@ -4,7 +4,7 @@ import { XIcon } from "lucide-react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { authClient } from "@/lib/authClient";
-import z, { email } from "zod";
+import z from "zod";
 interface MessageBoxProps {
   text: string;
   closeFun: any;
@@ -72,12 +72,23 @@ export default function LoginPage() {
 
   return (
     <div className="bg-white flex flex-col w-full">
-      <h1 className="mb-2">LOGIN</h1>
+      <h1 className="mb-2 text-center">Přihlášení</h1>
       {isMesssageVisible && (
         <MessageBox text={msg} closeFun={() => resetMessageBox()} />
       )}
       <div>
-        <Input type="email" onChange={(e) => setEmail(e.target.value)} />
+        <label htmlFor="email" className="mb-2">
+          E-mail
+        </label>
+      </div>
+      <div>
+        <Input
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="jan@novak.cz"
+          id="email"
+          name="email"
+        />
       </div>
       <div>
         <Button label="Přihlásit se" onClick={handleLoginBtn} />
