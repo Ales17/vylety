@@ -46,7 +46,7 @@ export const auth = betterAuth({
   plugins: [
     admin(),
     magicLink({
-      disableSignUp: true,
+    //   disableSignUp: true,
       sendMagicLink: async ({ email, token, url }, ctx) => {
         //console.log(email, token, url);
         const isAllowed = await isEmailAllowed(email);
