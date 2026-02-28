@@ -9,6 +9,7 @@ export default function Input({
   name,
   label,
   autoComplete,
+  id,
 }: Props) {
   return (
     <div>
@@ -19,6 +20,7 @@ export default function Input({
         onChange={onChange ? onChange : undefined}
         placeholder={placeholder ? placeholder : undefined}
         name={name}
+        id={id}
         autoComplete={autoComplete}
       />
     </div>
