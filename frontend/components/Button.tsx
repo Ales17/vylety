@@ -16,6 +16,7 @@ export default function Button({
   type,
   label,
   variant = "primary",
+  disabled,
 }: Props) {
   const activeVariantClass = colors[variant];
   const baseDesignClasses =
@@ -28,6 +29,7 @@ export default function Button({
         onClick={onClick ? onClick : undefined}
         onMouseOver={onMouseOver}
         type={type ? type : undefined}
+        disabled={disabled}
       >
         {label}
       </button>
