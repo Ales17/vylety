@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { act, useState } from "react";
 import { XIcon } from "lucide-react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
@@ -64,9 +64,9 @@ export default function LoginPage() {
       email: email,
     });
     if (error) {
-      setMsg("Nastala chyba.");
+      activateMessage("Nastala chyba.");
     } else {
-      setMsg("Odeslán přihlašovací email.");
+      activateMessage("Odeslán přihlašovací email.");
     }
   };
 
