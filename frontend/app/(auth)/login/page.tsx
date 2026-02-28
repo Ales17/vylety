@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
-import { FormLoginState } from "@/types/FormLoginState";
 import { XIcon } from "lucide-react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { authClient } from "@/lib/authClient";
-
+import z, { email } from "zod";
 interface MessageBoxProps {
   text: string;
   closeFun: any;
@@ -35,6 +34,10 @@ function MessageBox({ text, closeFun, type }: MessageBoxProps) {
   );
 }
 
+const Form = z.object({
+  email: z.email(),
+});
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
@@ -43,6 +46,28 @@ export default function LoginPage() {
   const resetMessageBox = () => {
     setMsg("");
     setIsMessageVisible(false);
+  };
+
+  const activateMessage = (text: string) => {
+    setMsg(text);
+    setIsMessageVisible(true);
+  };
+
+  const handleLoginBtn = async () => {
+    resetMessageBox();
+    const result = Form.safeParse({ email: email });
+    if (result.success == false) {
+      activateMessage("Chybný formát e-mailu.");
+      return;
+    }
+    const { error } = await authClient.signIn.magicLink({
+      email: email,
+    });
+    if (error) {
+      setMsg("Nastala chyba.");
+    } else {
+      setMsg("Odeslán přihlašovací email.");
+    }
   };
 
   return (
@@ -55,22 +80,7 @@ export default function LoginPage() {
         <Input type="email" onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div>
-        <Button
-          label="Přihlásit se"
-          onClick={async () => {
-            resetMessageBox();
-            const { error, data } = await authClient.signIn.magicLink({
-              email: email,
-            });
-            if (error) {
-              setMsg(error.message ? error.message : "Chyba");
-              setIsMessageVisible(true);
-            } else {
-              setMsg("Odeslán přihlašovací email.");
-              setIsMessageVisible(true);
-            }
-          }}
-        />
+        <Button label="Přihlásit se" onClick={handleLoginBtn} />
       </div>
     </div>
   );
