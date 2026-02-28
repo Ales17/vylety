@@ -69,10 +69,8 @@ export default function LoginPage() {
       {isMessageVisible && (
         <MessageBox text={msg} closeFun={() => resetMessageBox()} />
       )}
-      <div>
-        <label htmlFor="email" className="mb-2">
-          E-mail
-        </label>
+      <div className="mb-2">
+        <label htmlFor="email">E-mail</label>
       </div>
       <div>
         <Input
